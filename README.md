@@ -17,7 +17,9 @@ when in pencil mode.
 
 ## How to Install
 clone this repository then compile using g++     
-ex: g++ -O3 \*.cpp -lncurses -o console_sudoku   
+    git clone https://github.com/flyingpeakock/Console_sudoku.git
+    cd Console_sudoku
+    g++ -O3 \*.cpp -lncurses -o console_sudoku
 -lncurses flag is required to link ncurses.h   
 -O3 is recommended to speed up puzzle generation but is not required.
 
