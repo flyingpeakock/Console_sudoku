@@ -23,7 +23,13 @@ cd Console_sudoku/
 g++ -O3 \*.cpp -lncurses -o console_sudoku
 ```
 -lncurses flag is required to link ncurses.h   
--O3 is recommended to speed up puzzle generation but is not required.
+-O3 is recommended to speed up puzzle generation but is not required.   
+
+To run this program from any directory move the generated
+console_sudoku file to anywhere in your $PATH.
+```
+cp console_sudoku ~/.local/bin/console_sudoku
+```
 
 ## Generate or Solve Sudoku Puzzles
 You can use the Generator files and Solver files to generate
