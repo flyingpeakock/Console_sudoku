@@ -31,6 +31,10 @@ console_sudoku file to anywhere in your $PATH.
 cp console_sudoku ~/.local/bin/console_sudoku
 ```
 
+## Screenshots
+![new game] (https://i.imgur.com/q429YPm.png)
+![Same game with pencil marks and a couple boxes filled in] (https://i.imgur.com/5ukQp6O.png)
+
 ## Generate or Solve Sudoku Puzzles
 You can use the Generator files and Solver files to generate
 or solve sudoku puzzles, some C++ experience is recommended
