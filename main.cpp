@@ -91,8 +91,6 @@ void input(std::array<std::array<int, 9>, 9> &grid,
     attroff(COLOR_PAIR(1));
 }
 
-
-
 int main() {
     setlocale(LC_ALL, "");
     
@@ -176,7 +174,7 @@ int main() {
     int x = middle + 2;
     int y = 4;
     attron(A_BOLD);
-    for (auto ar : grid) {
+    for (auto &ar : grid) {
         for (auto num : ar) {
             char ch = num + '0';
             if (ch > '0') {
@@ -191,8 +189,6 @@ int main() {
 
     // Move cursor to first box
     move(4, middle+2);
-
-    refresh();
 
     bool insertMode = true;
     while(true) {
@@ -266,10 +262,14 @@ int main() {
 
         if (grid == solution) {
             // Player has won
-            mvprintw(22, middle, "Winner, winner, chicken dinner!");
+            move(22, middle);
+            clrtoeol();
+            printw("Winner, winner, chicken dinner!");
             move(y, x);
             refresh();
+            break;
         }
     }
+    getch();
     endwin();
 }

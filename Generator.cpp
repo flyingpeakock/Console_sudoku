@@ -45,6 +45,10 @@ Generator::Generator() {
             grid[cell.row][cell.col] = cell.val;
         }
     }
+
+    // Solve again incase last removal broke the puzzle
+    solver = Solver(grid);
+    solver.solve();
 }
 
 
