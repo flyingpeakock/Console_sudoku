@@ -85,8 +85,10 @@ void input(std::array<std::array<int, 9>, 9> &grid,
         attron(COLOR_PAIR(1));
     }
     // Print a 3 long string to overwrite any pencil marks
+    attron(A_BOLD);
     mvprintw(y, x - 1, " %c ", val);
     grid[col][row] = val - '0';
+    attroff(A_BOLD);
 
     attroff(COLOR_PAIR(1));
 }
