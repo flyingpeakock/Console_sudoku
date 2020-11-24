@@ -8,7 +8,6 @@ class Solver {
         bool isSafe(int row, int col, int num);
         bool backtrack(int row, int col);
         int solutions;
-        void copySolution();
     public:
         Solver();
         Solver(int board[9][9]);

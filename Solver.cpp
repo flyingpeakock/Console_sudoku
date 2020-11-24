@@ -65,19 +65,12 @@ bool Solver::isSafe(int row, int col, int num) {
     return true; // All checks passed
 }
 
-void Solver::copySolution() {
-    for (auto i = 0; i < SIZE; i++) {
-        for (auto j = 0; j < SIZE; j++) {
-            solution[i][j] = grid[i][j];
-        }
-    }
-}
 
 bool Solver::backtrack(int row, int col) {
     // Has reached the end of the board, return true
     if (row == SIZE - 1 && col == SIZE) {
         solutions++;
-        copySolution();
+        solution = grid;
         return true;
     }
 
