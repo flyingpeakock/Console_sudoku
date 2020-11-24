@@ -168,7 +168,7 @@ int main() {
     attron(A_UNDERLINE);
     mvaddch(17, middle + SIZE + 5, 'q');
     attroff(A_UNDERLINE);
-    printw("uit/back");
+    printw("uit");
 
     // Adding numbers to the grid
     int x = middle + 2;
