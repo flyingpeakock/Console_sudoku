@@ -36,7 +36,7 @@ You can use the Generator files and Solver files to generate
 or solve sudoku puzzles, some C++ experience is recommended
 but not required if you don't mind learning a little.
 
-To solve an array create a Solver object and pass the 
+To solve an unsolved puzzle create a Solver object and pass the 
 unsolved puzzle to the constructor. The unsolved puzzle
 can be an int\*\*, int[9][9] or a 9x9 std::array. Solve the 
 puzzle by calling the solve method on the Solver object.
