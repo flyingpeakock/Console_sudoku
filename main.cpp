@@ -27,7 +27,7 @@ void pencil(std::vector<char> &pencilMarks, char val) {
     }
 
     // If backspace or space, remove most recent pencilMark
-    if (val == KEY_BACKSPACE || val == ' ') {
+    if (val == ' ') {
         if (pencilMarks[0] != ' ') {
             pencilMarks.erase(pencilMarks.begin());
         }
