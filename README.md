@@ -36,7 +36,7 @@ cp console_sudoku ~/.local/bin/console_sudoku
 
 ### Troubleshooting
 If your console does not display the box characters but 
-instead displays something like M-b~U~T over and over you 
+instead displays something like M-b\~U\~T over and over you 
 can compile using -lncursesw instead.
 ```
 g++ -O3 *.cpp -lncursesw -o console_sudoku
