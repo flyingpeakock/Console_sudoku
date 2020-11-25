@@ -93,6 +93,26 @@ void input(std::array<std::array<int, 9>, 9> &grid,
     attroff(COLOR_PAIR(1));
 }
 
+void go(int middle) {
+    char col, row;
+    while (col < '1' || col > '9') {
+        col = getch();
+    }
+    while (row < '1' || row > '9') {
+        row = getch();
+    }
+
+    // Get index from input;
+    col -= '1';
+    row -= '1';
+
+    int scr_col = (col * 4) + middle + 2;
+    int scr_row = (row * 2) + 4;
+
+    move(scr_row, scr_col);
+    refresh();
+}
+
 int main() {
     setlocale(LC_ALL, "");
     
@@ -109,7 +129,7 @@ int main() {
 
     attron(A_BOLD);
     char loading[] = "Generating puzzle...";
-    mvprintw(1, (nc_col - strlen(loading))/2, "%s", loading);
+    mvprintw(0, (nc_col - strlen(loading))/2, "%s", loading);
     attroff(A_BOLD);
     refresh();
 
@@ -132,7 +152,7 @@ int main() {
     clear();
     attron(A_BOLD | A_UNDERLINE);
     char title[] = "Console Sudoku";
-    mvprintw(1,(nc_col-strlen(title))/2,"%s",title);
+    mvprintw(0,(nc_col-strlen(title))/2,"%s",title);
     attroff(A_BOLD | A_UNDERLINE);
 
     // Printing boxes
@@ -174,6 +194,12 @@ int main() {
             mvprintw(9 + 6*i, middle, "%s", middleRow3);
     }
     mvprintw(21, middle, "%s", botRow);
+    
+    // Printing grid coordinates
+    mvprintw(2, middle + 2, "1   2   3   4   5   6   7   8   9");
+    for (int i = 0; i < 9; i++) {
+        mvprintw(4 + (i * 2), middle - 2, "%d", i + 1);
+    }
 
     // Print instructions
     mvprintw(7, middle + SIZE + 8, "k");
@@ -189,9 +215,14 @@ int main() {
     attroff(A_UNDERLINE);
     printw("encil");
     attron(A_UNDERLINE);
-    mvaddch(17, middle + SIZE + 5, 'q');
+    mvaddch(17, middle + SIZE + 5, 'g');
+    attroff(A_UNDERLINE);
+    addch('o');
+    attron(A_UNDERLINE);
+    mvaddch(18, middle + SIZE + 5, 'q');
     attroff(A_UNDERLINE);
     printw("uit");
+
 
     // Adding numbers to the grid
     int x = middle + 2;
@@ -263,6 +294,9 @@ int main() {
         // Pencil
         case 'p':
             insertMode = false;
+            break;
+        case 'g':
+            go(middle);
             break;
         // Quit
         case 'q':
