@@ -73,7 +73,7 @@ void input(std::array<std::array<int, 9>, 9> &grid,
         // Already correct value in space, do nothing
         return;
     }
-    if (val == KEY_BACKSPACE || val == ' ') {
+    if (val == ' ') {
         // Player wants to remove incorrect value
         printw(" ");
         move(y, x);
