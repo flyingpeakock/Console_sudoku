@@ -8,6 +8,9 @@ Fill in all the missing squares with no repeating digits in
 the column, row or box.
 Use hjkl to navigate around the board.
 Press i or p to enter input mode or pencil mode respectively.
+To go to a specific box on the board type g followed by the 
+column number then the row number. For example, to go to 
+column 4, row 2 type g42.
 This game supports up to 3 pencil marks per box.
 Wrong inputs are marked in red if your terminal supports it.
 To remove a wrong input or the most recent pencil mark press
