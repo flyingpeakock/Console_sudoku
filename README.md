@@ -34,6 +34,14 @@ console_sudoku file to anywhere in your $PATH.
 cp console_sudoku ~/.local/bin/console_sudoku
 ```
 
+### Troubleshooting
+If your console does not display the box characters but 
+instead displays something like M-b~U~T over and over you 
+can compile using -lncursesw instead.
+```
+g++ -O3 *.cpp -lncursesw -o console_sudoku
+```
+
 ## Screenshots
 ![new game](https://i.imgur.com/OQ39ENC.png)
 ![Same game with pencil marks, a couple boxes filed in and a mistake](https://i.imgur.com/JpnAZH3.png)
