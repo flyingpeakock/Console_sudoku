@@ -94,12 +94,18 @@ void input(std::array<std::array<int, 9>, 9> &grid,
 }
 
 void go(int middle) {
-    char col, row;
+    char col, row = 0;
     while (col < '1' || col > '9') {
         col = getch();
+        if (col == 'q') {
+            return;
+        }
     }
     while (row < '1' || row > '9') {
         row = getch();
+        if (row == 'q') {
+            return;
+        }
     }
 
     // Get index from input;
