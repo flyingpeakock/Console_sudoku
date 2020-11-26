@@ -5,15 +5,8 @@
 #include <locale.h>
 #include <vector>
 
-#define SIZE 37
-
-int calcRow(int x, int y, int middle) {
-    return (x - (middle + 2)) / 4;
-}
-
-int calcCol(int x, int y) {
-    return (y - 4) / 2;
-}
+#define WIDTH 37
+#define HEIGHT 19
 
 void pencil(std::vector<char> &pencilMarks, char val) {
     int x, y;
@@ -93,7 +86,9 @@ void input(std::array<std::array<int, 9>, 9> &grid,
     attroff(COLOR_PAIR(1));
 }
 
-void go(int middle) {
+void go(int top, int left){
+    top--;
+    left -= 2;
     char col, row = 0;
     while (col < '1' || col > '9') {
         col = getch();
@@ -112,12 +107,172 @@ void go(int middle) {
     col -= '1';
     row -= '1';
 
-    int scr_col = (col * 4) + middle + 2;
-    int scr_row = (row * 2) + 4;
+    int scr_col = (col * 4) + left + 2;
+    int scr_row = (row * 2) + top + 1;
 
     move(scr_row, scr_col);
     refresh();
 }
+
+void printBoxes(const int startWidth, const int startHeight) {
+    const char topRow[] = "\u2554\u2550\u2550\u2550\u2564\u2550\u2550\u2550\u2564"
+                          "\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2564\u2550"
+                          "\u2550\u2550\u2564\u2550\u2550\u2550\u2566\u2550\u2550"
+                          "\u2550\u2564\u2550\u2550\u2550\u2564\u2550\u2550\u2550\u2557";
+    const char middleRow[] = "\u2551   \u2502   \u2502   \u2551   \u2502"
+                             "   \u2502   \u2551   \u2502   \u2502   \u2551";
+    const char middleRow2[] = "\u255f\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u253c"
+                              "\u2500\u2500\u2500\u256b\u2500\u2500\u2500\u253c"
+                              "\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u256b"
+                              "\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u253c"
+                              "\u2500\u2500\u2500\u2562";
+    const char middleRow3[] = "\u2560\u2550\u2550\u2550\u256a\u2550\u2550\u2550\u256a"
+                              "\u2550\u2550\u2550\u256c\u2550\u2550\u2550\u256a"
+                              "\u2550\u2550\u2550\u256a\u2550\u2550\u2550\u256c"
+                              "\u2550\u2550\u2550\u256a\u2550\u2550\u2550\u256a"
+                              "\u2550\u2550\u2550\u2563";
+    const char botRow[] = "\u255a\u2550\u2550\u2550\u2567\u2550\u2550\u2550\u2567"
+                          "\u2550\u2550\u2550\u2569\u2550\u2550\u2550\u2567"
+                          "\u2550\u2550\u2550\u2567\u2550\u2550\u2550\u2569"
+                          "\u2550\u2550\u2550\u2567\u2550\u2550\u2550\u2567"
+                          "\u2550\u2550\u2550\u255d";
+    
+    attron(A_BOLD);
+    mvprintw(startHeight, startWidth, "%s", topRow);
+    for (auto i = 0; i < 3; i++) {
+        mvprintw((startHeight + 1) + 6*i, startWidth, "%s", middleRow);
+        mvprintw((startHeight + 2) + 6*i, startWidth, "%s", middleRow2);
+        mvprintw((startHeight + 3) + 6*i, startWidth, "%s", middleRow);
+        mvprintw((startHeight + 4) + 6*i, startWidth, "%s", middleRow2);
+        mvprintw((startHeight + 5) + 6*i, startWidth, "%s", middleRow);
+        if (i != 2)
+            mvprintw((startHeight + 6) + 6*i, startWidth, "%s", middleRow3);
+    }
+    mvprintw(startHeight + 18, startWidth, "%s", botRow);
+    attroff(A_BOLD);
+}
+
+void printCoords(const int width, const int height) {
+    const int top = height  - 1;
+    const int topleft = width + 2;
+    const int left = width - 2;
+    mvprintw(top, topleft, "1   2   3   4   5   6   7   8   9");
+    for (auto i = 0; i < 9; i++) {
+        mvprintw((top + 2) + (i*2), left, "%d", i + 1);
+    }
+}
+
+void printInstructions(const int width, const int height) {
+    const int row = height + 4;
+    const int col = width + 42;
+
+    mvaddch(row, col + 3, 'k');
+    mvaddch(row + 2, col, 'h');
+    mvaddch(row + 2, col + 6, 'l');
+    mvaddch(row + 4, col + 3, 'j');
+    attron(A_UNDERLINE);
+    mvaddch(row + 8, col, 'i');
+    attroff(A_UNDERLINE);
+    printw("nsert");
+    attron(A_UNDERLINE);
+    mvaddch(row + 9, col, 'p');
+    attroff(A_UNDERLINE);
+    printw("encil");
+    attron(A_UNDERLINE);
+    mvaddch(row + 10, col, 'g');
+    attroff(A_UNDERLINE);
+    printw("o");
+    attron(A_UNDERLINE);
+    mvaddch(row + 11, col, 'q');
+    attroff(A_UNDERLINE);
+    printw("uit");
+}
+
+void printNumbs(const int width, const int height, std::array<std::array<int, 9>, 9> &grid) {
+    int y = height + 1;
+
+    attron(A_BOLD);
+    for (auto ar : grid) {
+        int x = width + 2;
+        for (auto num : ar) {
+            const char ch = num + '0';
+            if (ch > '0') {
+                mvaddch(y, x, ch);
+            }
+            x += 4;
+        }
+        y += 2;
+    }
+    attroff(A_BOLD);
+}
+
+void printPencil(const int width, const int height,
+                 std::array<std::array<std::vector<char>, 9>, 9> &pencilMarks) {
+
+    attron(A_DIM);
+    int y = height + 1;
+    for (auto &arr : pencilMarks) {
+        int x = width + 1;
+        for (auto &ar : arr) {
+            char str[] = {ar[0], ar[2], ar[1], '\0'};
+            mvprintw(y, x, "%s", str);
+            x += 4;
+        }
+        y += 2;
+    }
+    attroff(A_DIM);
+}
+
+void draw(int &nc_col, int &nc_row, int &gridTop, int &gridLeft,
+          std::array<std::array<int, 9>, 9> &grid,
+          std::array<std::array<std::vector<char>, 9>, 9> &pencilMarks) {
+
+    int y, x;
+    getyx(stdscr, y, x);
+
+    // Get cursor position to move it back after drawing
+    const int pos_y = (y - ((nc_row - HEIGHT) / 2)) / 2;
+    const int pos_x = (x - ((nc_col - WIDTH) / 2)) / 4;
+
+    // Get new screen size
+    getmaxyx(stdscr, nc_row, nc_col);
+
+    int top = (nc_row - HEIGHT) / 2;
+    int left = (nc_col - WIDTH) / 2;
+    gridTop = top + 1;
+    gridLeft = left + 2;
+
+    clear();
+
+    if (nc_row < HEIGHT || nc_col < WIDTH) {
+        char error[] = "Not enough space to draw board";
+        mvprintw(nc_row / 2, (nc_col - strlen(error)) / 2, "%s", error);
+        move(0,0);
+        refresh();
+        return;
+    }
+
+    if (nc_row - HEIGHT >= 4) {
+        attron(A_BOLD | A_UNDERLINE);
+        char title[] = "Console Sudoku";
+        mvprintw(top - 3, (nc_col - strlen(title)) / 2, "%s", title);
+        attroff(A_BOLD | A_UNDERLINE);
+    }
+
+    printBoxes(left, top);
+    printPencil(left, top, pencilMarks);
+    printNumbs(left, top, grid);
+    if (nc_col - WIDTH >= 24)
+        printInstructions(left, top);
+    if (nc_col - WIDTH >= 4 && nc_row - HEIGHT >= 2)
+        printCoords(left, top);
+
+    // Move cursor back into correct box
+    move((pos_y * 2) + top + 1, (pos_x * 4) + left + 2);
+
+    refresh();
+}
+
 
 int main() {
     setlocale(LC_ALL, "");
@@ -155,184 +310,79 @@ int main() {
         }
     }
 
-    clear();
-    attron(A_BOLD | A_UNDERLINE);
-    char title[] = "Console Sudoku";
-    mvprintw(0,(nc_col-strlen(title))/2,"%s",title);
-    attroff(A_BOLD | A_UNDERLINE);
+    // Move cursor to where first box will be
+    move(((nc_row - HEIGHT) / 2) + 1, ((nc_col - WIDTH) / 2) + 2);
 
-    // Printing boxes
-    // char topRow[] =     "╔═══╤═══╤═══╦═══╤═══╤═══╦═══╤═══╤═══╗";
-    char topRow[] = "\u2554\u2550\u2550\u2550\u2564\u2550\u2550\u2550\u2564"
-                    "\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2564\u2550"
-                    "\u2550\u2550\u2564\u2550\u2550\u2550\u2566\u2550\u2550"
-                    "\u2550\u2564\u2550\u2550\u2550\u2564\u2550\u2550\u2550\u2557";
-    //char middleRow[] =  "║   │   │   ║   │   │   ║   │   │   ║";
-    char middleRow[] = "\u2551   \u2502   \u2502   \u2551   \u2502"
-                       "   \u2502   \u2551   \u2502   \u2502   \u2551";
-    // char middleRow2[] = "╟───┼───┼───╫───┼───┼───╫───┼───┼───╢";
-    char middleRow2[] = "\u255f\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u253c"
-                        "\u2500\u2500\u2500\u256b\u2500\u2500\u2500\u253c"
-                        "\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u256b"
-                        "\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u253c"
-                        "\u2500\u2500\u2500\u2562";
-    // char middleRow3[] = "╠═══╪═══╪═══╬═══╪═══╪═══╬═══╪═══╪═══╣";
-    char middleRow3[] = "\u2560\u2550\u2550\u2550\u256a\u2550\u2550\u2550\u256a"
-                        "\u2550\u2550\u2550\u256c\u2550\u2550\u2550\u256a"
-                        "\u2550\u2550\u2550\u256a\u2550\u2550\u2550\u256c"
-                        "\u2550\u2550\u2550\u256a\u2550\u2550\u2550\u256a"
-                        "\u2550\u2550\u2550\u2563";
-    // char botRow[] =     "╚═══╧═══╧═══╩═══╧═══╧═══╩═══╧═══╧═══╝";
-    char botRow[] = "\u255a\u2550\u2550\u2550\u2567\u2550\u2550\u2550\u2567"
-                    "\u2550\u2550\u2550\u2569\u2550\u2550\u2550\u2567"
-                    "\u2550\u2550\u2550\u2567\u2550\u2550\u2550\u2569"
-                    "\u2550\u2550\u2550\u2567\u2550\u2550\u2550\u2567"
-                    "\u2550\u2550\u2550\u255d";
-    int middle = (nc_col - SIZE) / 2;
-    mvprintw(3, middle, "%s", topRow);
-    for (auto i = 0; i < 3; i++) {
-        mvprintw(4 + 6*i, middle, "%s", middleRow);
-        mvprintw(5 + 6*i, middle, "%s", middleRow2);
-        mvprintw(6 + 6*i, middle, "%s", middleRow);
-        mvprintw(7 + 6*i, middle, "%s", middleRow2);
-        mvprintw(8 + 6*i, middle, "%s", middleRow);
-        if (i != 2)
-            mvprintw(9 + 6*i, middle, "%s", middleRow3);
-    }
-    mvprintw(21, middle, "%s", botRow);
-    
-    // Printing grid coordinates
-    mvprintw(2, middle + 2, "1   2   3   4   5   6   7   8   9");
-    for (int i = 0; i < 9; i++) {
-        mvprintw(4 + (i * 2), middle - 2, "%d", i + 1);
-    }
-
-    // Print instructions
-    mvprintw(7, middle + SIZE + 8, "k");
-    mvprintw(9, middle + SIZE + 5, "h");
-    mvprintw(9, middle + SIZE + 11, "l");
-    mvprintw(11, middle + SIZE + 8, "j");
-    attron(A_UNDERLINE);
-    mvaddch(15, middle + SIZE + 5, 'i');
-    attroff(A_UNDERLINE);
-    printw("nsert");
-    attron(A_UNDERLINE);
-    mvaddch(16, middle + SIZE + 5, 'p');
-    attroff(A_UNDERLINE);
-    printw("encil");
-    attron(A_UNDERLINE);
-    mvaddch(17, middle + SIZE + 5, 'g');
-    attroff(A_UNDERLINE);
-    addch('o');
-    attron(A_UNDERLINE);
-    mvaddch(18, middle + SIZE + 5, 'q');
-    attroff(A_UNDERLINE);
-    printw("uit");
-
-
-    // Adding numbers to the grid
-    int x = middle + 2;
-    int y = 4;
-    attron(A_BOLD);
-    for (auto &ar : grid) {
-        for (auto num : ar) {
-            char ch = num + '0';
-            if (ch > '0') {
-                mvaddch(y, x, ch);
-            }
-            x = x + 4;
-        }
-        x = middle + 2;
-        y += 2;
-    }
-    attroff(A_BOLD);
-
-    // Move cursor to first box
-    move(4, middle+2);
+    int top, left;
+    draw(nc_col, nc_row, top, left, grid, pencilMarks);
 
     bool insertMode = true;
-    while(true) {
-        getyx(stdscr, y,x);
-        move(22, middle);
-        clrtoeol();
-        if (insertMode) {
-            printw("Insert mode");
+    bool isRunning = true;
+    while (isRunning) {
+        int y, x;
+        getyx(stdscr, y, x);
+        if (nc_row >= HEIGHT + 1 && !(nc_row < HEIGHT || nc_col < WIDTH)) {
+            move(top + 18, left - 2);
+            clrtoeol();
+            printw("%s", insertMode? "Insert mode" : "Pencil mode");
+            move(y, x);
         }
-        else {
-            printw("Pencil mode");
-        }
-        move(y, x);
         refresh();
-        int top = 4;
-        int bot = 20;
-        int left = middle + 2;
-        int right = middle + 2 + 32;
-        char ch = getch();
-        switch(ch) {
-        // Move left
-        case 'h':
-            if (x - 4 >= left) {
-                move(y, x-4);
-            }
+        wchar_t ch = wgetch(stdscr);
+        switch (ch) {
+        case KEY_RESIZE:
+            draw(nc_col, nc_row, top, left, grid, pencilMarks);
             break;
-        // Move down
-        case 'j':
-            if (y + 2 <= bot) {
-                move(y+2, x);
-            }
+        case L'h':
+            if (x - 4 >= left)
+                move(y, x - 4);
             break;
-        // Move up
-        case 'k':
-            if (y - 2 >= top) {
-                move(y-2, x);
-            }
+        case L'j':
+            if (y + 2 <= top + 16)
+                move(y + 2, x);
             break;
-        // Move right
-        case 'l':
-            if (x + 4 <= right) {
-                move(y, x+4);
-            }
+        case L'k':
+            if (y - 2 >= top) 
+                move(y - 2, x);
             break;
-        // Input
-        case 'i':
+        case L'l':
+            if (x + 4 <= left + 32)
+                move(y, x + 4);
+            break;
+        case L'i':
             insertMode = true;
             break;
-        // Pencil
-        case 'p':
+        case L'p':
             insertMode = false;
             break;
-        case 'g':
-            go(middle);
+        case L'g':
+            go(top, left);
             break;
-        // Quit
-        case 'q':
-            endwin();
-            return 0;
-        }
-        if ((ch > '0' && ch <= '9') || ch == KEY_BACKSPACE || ch == ' ') {
-            int row = calcRow(x, y, middle);
-            int col = calcCol(x, y);
-            if (insertMode) {
-                input(grid, solution, ch, pencilMarks[col][row], row, col);
+        case L'q':
+            isRunning = false;
+            break;
+        default:
+            if ((ch > L'0' && ch <= '9') || ch == L' ') {
+                // This seems to be the wrong way round, but it works
+                int col = (y - top) / 2;
+                int row = (x - left) / 4;
+                if (insertMode)
+                    input(grid, solution, ch, pencilMarks[col][row], row, col);
+                else if (grid[col][row] != solution[col][row]) 
+                    pencil(pencilMarks[col][row], ch);
             }
-            else if (grid[col][row] != solution[col][row]){
-                // Only draw pencil marks if correct value is not present
-                pencil(pencilMarks[col][row], ch);
-            }
-            move(y, x);
-            refresh();
-        }
 
-        if (grid == solution) {
-            // Player has won
-            move(22, middle);
-            clrtoeol();
-            printw("Winner, winner, chicken dinner!");
+            if (grid == solution) {
+                move(top + 18, left - 2);
+                clrtoeol();
+                printw("Winner winner, chicken dinner!");
+                isRunning = false;
+            }
             move(y, x);
             refresh();
-            break;
         }
     }
-    getch();
+    if (grid == solution)
+        getch();
     endwin();
 }
