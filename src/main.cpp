@@ -62,7 +62,7 @@ void input(std::array<std::array<int, 9>, 9> &grid,
 
     int x, y;
     getyx(stdscr, y, x);
-    if (grid[col][row] == solution[col][row]) {
+    if (grid[row][col] == solution[row][col]) {
         // Already correct value in space, do nothing
         return;
     }
@@ -73,14 +73,14 @@ void input(std::array<std::array<int, 9>, 9> &grid,
         pencil(pencilMarks, '\0');
         return;
     }
-    if ((int) (val - '0') != solution[col][row]) {
+    if ((int) (val - '0') != solution[row][col]) {
         // Player is placing a bad value, mark it red
         attron(COLOR_PAIR(1));
     }
     // Print a 3 long string to overwrite any pencil marks
     attron(A_BOLD);
     mvprintw(y, x - 1, " %c ", val);
-    grid[col][row] = val - '0';
+    grid[row][col] = val - '0';
     attroff(A_BOLD);
 
     attroff(COLOR_PAIR(1));
@@ -363,13 +363,12 @@ int main() {
             break;
         default:
             if ((ch > L'0' && ch <= '9') || ch == L' ') {
-                // This seems to be the wrong way round, but it works
-                int col = (y - top) / 2;
-                int row = (x - left) / 4;
+                int row = (y - top) / 2;
+                int col = (x - left) / 4;
                 if (insertMode)
-                    input(grid, solution, ch, pencilMarks[col][row], row, col);
-                else if (grid[col][row] != solution[col][row]) 
-                    pencil(pencilMarks[col][row], ch);
+                    input(grid, solution, ch, pencilMarks[row][col], row, col);
+                else if (grid[row][col] != solution[row][col]) 
+                    pencil(pencilMarks[row][col], ch);
             }
 
             if (grid == solution) {
