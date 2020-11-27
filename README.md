@@ -18,6 +18,18 @@ your spacebar in their respective modes.
 To remove a specific pencil mark enter that number in the box
 when in pencil mode.
 
+### Command line arguments
+Arguments can be passed to the program when executing, the
+following arguments are:    
+nocolor disables red text on wrong input   
+noinstructions does not print the instructions to the right of the board    
+nocoords does not print the coordinates around the board
+notitle does not print the title    
+nomode does not print the mode the user is currently in
+clean is equivalent to noinstructions, nocoords, notitle and nomode    
+
+None or all of the arguments may be passed to the program.
+
 ## How to Install
 clone this repository then compile using g++     
 ```
