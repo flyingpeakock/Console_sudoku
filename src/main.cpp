@@ -230,7 +230,8 @@ void printPencil(const int width, const int height,
 
 void draw(int &nc_col, int &nc_row, int &gridTop, int &gridLeft,
           std::array<std::array<int, 9>, 9> &grid,
-          std::array<std::array<std::vector<char>, 9>, 9> &pencilMarks) {
+          std::array<std::array<std::vector<char>, 9>, 9> &pencilMarks,
+          bool showInstructions, bool showCoords, bool showTitle) {
 
     int y, x;
     getyx(stdscr, y, x);
@@ -257,7 +258,7 @@ void draw(int &nc_col, int &nc_row, int &gridTop, int &gridLeft,
         return;
     }
 
-    if (nc_row - HEIGHT >= 4) {
+    if (nc_row - HEIGHT >= 4 && showTitle) {
         attron(A_BOLD | A_UNDERLINE);
         char title[] = "Console Sudoku";
         mvprintw(top - 3, (nc_col - strlen(title)) / 2, "%s", title);
@@ -267,9 +268,9 @@ void draw(int &nc_col, int &nc_row, int &gridTop, int &gridLeft,
     printBoxes(left, top);
     printPencil(left, top, pencilMarks, grid);
     printNumbs(left, top, grid);
-    if (nc_col - WIDTH >= 24)
+    if (nc_col - WIDTH >= 24 && showInstructions)
         printInstructions(left, top);
-    if (nc_col - WIDTH >= 4 && nc_row - HEIGHT >= 2)
+    if (nc_col - WIDTH >= 4 && nc_row - HEIGHT >= 2 && showCoords)
         printCoords(left, top);
 
     // Move cursor back into correct box
@@ -314,7 +315,36 @@ void removeMarks(char val, int row, int col,
 }
 
 
-int main() {
+int main(int argc, char *argv[]) {
+    bool showInstructions = true;
+    bool showCoords = true;
+    bool showTitle = true;
+    bool showMode = true;
+    bool showColor = true;
+    for (auto i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "nocolor") == 0) {
+            showColor = false;
+        }
+        else if (strcmp(argv[i], "noinstructions") == 0) {
+            showInstructions = false;
+        }
+        else if (strcmp(argv[i], "nocoords") == 0) {
+            showCoords = false;
+        }
+        else if (strcmp(argv[i],"notitle") == 0) {
+            showTitle = false;
+        }
+        else if (strcmp(argv[i],"nomode") == 0) {
+            showMode = false;
+        }
+        else if (strcmp(argv[i], "clean") == 0) {
+            showInstructions = false;
+            showCoords = false;
+            showTitle = false;
+            showMode = false;
+        }
+    }
+
     setlocale(LC_ALL, "");
     
     int nc_row, nc_col;
@@ -323,7 +353,7 @@ int main() {
     getmaxyx(stdscr, nc_row, nc_col);
     cbreak();  // Get input before enter is pressed
     noecho();  // Do not show keypresses
-    if (has_colors()) {
+    if (has_colors() && showColor) {
         start_color();
         init_pair(1, COLOR_RED, COLOR_BLACK);
     }
@@ -354,14 +384,15 @@ int main() {
     move(((nc_row - HEIGHT) / 2) + 1, ((nc_col - WIDTH) / 2) + 2);
 
     int top, left;
-    draw(nc_col, nc_row, top, left, grid, pencilMarks);
+    draw(nc_col, nc_row, top, left, grid, pencilMarks, showInstructions,
+         showCoords, showTitle);
 
     bool insertMode = true;
     bool isRunning = true;
     while (isRunning) {
         int y, x;
         getyx(stdscr, y, x);
-        if (nc_row >= HEIGHT + 1 && !(nc_row < HEIGHT || nc_col < WIDTH)) {
+        if (nc_row >= HEIGHT + 1 && !(nc_row < HEIGHT || nc_col < WIDTH) && showMode) {
             move(top + 18, left - 2);
             clrtoeol();
             printw("%s", insertMode? "Insert mode" : "Pencil mode");
@@ -371,7 +402,8 @@ int main() {
         wchar_t ch = wgetch(stdscr);
         switch (ch) {
         case KEY_RESIZE:
-            draw(nc_col, nc_row, top, left, grid, pencilMarks);
+            draw(nc_col, nc_row, top, left, grid, pencilMarks, showInstructions,
+                 showCoords, showTitle);
             break;
         case L'h':
             if (x - 4 >= left)
