@@ -6,7 +6,7 @@
 
 #define SIZE 9
 
-Generator::Generator() {
+Generator::Generator(int maxUnknowns) {
 
     struct Cell
     {
@@ -35,6 +35,9 @@ Generator::Generator() {
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     shuffle (cells.begin(), cells.end(), std::default_random_engine(seed));
 
+    if (maxUnknowns == 0)
+        maxUnknowns = 81;
+    int unknowns = 0;
     for (auto cell: cells) {
         grid[cell.row][cell.col] = 0;
         solver = Solver(grid);
@@ -44,6 +47,10 @@ Generator::Generator() {
             // Put it back
             grid[cell.row][cell.col] = cell.val;
         }
+        else
+            unknowns++;
+        if (unknowns == maxUnknowns)
+            break;
     }
 
     // Solve again incase last removal broke the puzzle

@@ -321,6 +321,7 @@ int main(int argc, char *argv[]) {
     bool showTitle = true;
     bool showMode = true;
     bool showColor = true;
+    int maxUnknowns = 0;
     for (auto i = 1; i < argc; i++) {
         if (strcmp(argv[i], "nocolor") == 0) {
             showColor = false;
@@ -342,6 +343,9 @@ int main(int argc, char *argv[]) {
             showCoords = false;
             showTitle = false;
             showMode = false;
+        }
+        else if (atoi(argv[i]) != 0) {
+            maxUnknowns = atoi(argv[i]);
         }
     }
 
@@ -365,7 +369,7 @@ int main(int argc, char *argv[]) {
     refresh();
 
     // Generate grid and solution
-    Generator gen;
+    Generator gen(maxUnknowns);
     auto grid = gen.getGrid();
     auto solution = gen.getSolution();
 
