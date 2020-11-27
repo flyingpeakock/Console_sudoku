@@ -344,7 +344,7 @@ int main(int argc, char *argv[]) {
             showTitle = false;
             showMode = false;
         }
-        else if (atoi(argv[i]) != 0) {
+        else if (atoi(argv[i]) > 0) {
             maxUnknowns = atoi(argv[i]);
         }
     }
