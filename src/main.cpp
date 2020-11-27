@@ -111,7 +111,6 @@ void go(int top, int left){
     int scr_row = (row * 2) + top + 1;
 
     move(scr_row, scr_col);
-    refresh();
 }
 
 void printBoxes(const int startWidth, const int startHeight) {
@@ -207,15 +206,21 @@ void printNumbs(const int width, const int height, std::array<std::array<int, 9>
 }
 
 void printPencil(const int width, const int height,
-                 std::array<std::array<std::vector<char>, 9>, 9> &pencilMarks) {
+                 std::array<std::array<std::vector<char>, 9>, 9> &pencilMarks,
+                 std::array<std::array<int, 9>, 9> &grid) {
 
     attron(A_DIM);
     int y = height + 1;
-    for (auto &arr : pencilMarks) {
+    //for (auto &arr : pencilMarks) {
+    for (auto i = 0; i < pencilMarks.size(); i++) {
         int x = width + 1;
-        for (auto &ar : arr) {
-            char str[] = {ar[0], ar[2], ar[1], '\0'};
-            mvprintw(y, x, "%s", str);
+        //for (auto &ar : arr) {
+        for (auto j = 0; j < pencilMarks[i].size(); j++) {
+            if (grid[i][j] < 1) {
+                std::vector<char> ar = pencilMarks[i][j];
+                char str[] = {ar[0], ar[2], ar[1], '\0'};
+                mvprintw(y, x, "%s", str);
+            }
             x += 4;
         }
         y += 2;
@@ -260,7 +265,7 @@ void draw(int &nc_col, int &nc_row, int &gridTop, int &gridLeft,
     }
 
     printBoxes(left, top);
-    printPencil(left, top, pencilMarks);
+    printPencil(left, top, pencilMarks, grid);
     printNumbs(left, top, grid);
     if (nc_col - WIDTH >= 24)
         printInstructions(left, top);
@@ -271,6 +276,41 @@ void draw(int &nc_col, int &nc_row, int &gridTop, int &gridLeft,
     move((pos_y * 2) + top + 1, (pos_x * 4) + left + 2);
 
     refresh();
+}
+
+void removeMarks(char val, int row, int col,
+                 std::array<std::array<std::vector<char>, 9>, 9> &pencilMarks) {
+
+    for (auto i = 0; i < 9; i++) {
+        for (auto j = 0; j < pencilMarks[row][i].size(); j++) {
+            if (val == pencilMarks[row][i][j]) {
+                pencilMarks[row][i].erase(pencilMarks[row][i].begin() + j);
+                break;
+            }
+        }
+    }
+    
+    for (auto i = 0; i < 9; i++) {
+        for (auto j = 0; j < pencilMarks[i][col].size(); j++) {
+            if (val == pencilMarks[i][col][j]) {
+                pencilMarks[i][col].erase(pencilMarks[i][col].begin() + j);
+                break;
+            }
+        }
+    }
+
+    int boxRow = (row / 3) * 3;
+    int boxCol = (col / 3) * 3;
+    for (auto i = boxRow; i < boxRow + 3; i++) {
+        for (auto j = boxCol; j < boxCol + 3; j++) {
+            for (auto k = 0; k < pencilMarks[boxRow][boxCol].size(); k++) {
+                if (val == pencilMarks[i][j][k]) {
+                    pencilMarks[i][j].erase(pencilMarks[i][j].begin() + k);
+                    break;
+                }
+            }
+        }
+    }
 }
 
 
@@ -365,8 +405,13 @@ int main() {
             if ((ch > L'0' && ch <= '9') || ch == L' ') {
                 int row = (y - top) / 2;
                 int col = (x - left) / 4;
-                if (insertMode)
+                if (insertMode) {
                     input(grid, solution, ch, pencilMarks[row][col], row, col);
+                    if ((int) (ch - '0') == solution[row][col]) {
+                        removeMarks(ch, row, col, pencilMarks);
+                        printPencil(left - 2, top - 1, pencilMarks, grid);
+                    }
+                }
                 else if (grid[row][col] != solution[row][col]) 
                     pencil(pencilMarks[row][col], ch);
             }
