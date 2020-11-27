@@ -30,7 +30,7 @@ void pencil(std::vector<char> &pencilMarks, char val) {
     // Check if pencil mark exists, if index is more than 2
     // move to front, if index is less, remove it
     for (auto i = 0; i < pencilMarks.size(); i++) {
-        if (pencilMarks[i] == val) {
+        if (pencilMarks[i] == val && val != ' ') {
             if (i > 2) {
                 pencilMarks.erase(pencilMarks.begin() + i);
                 pencilMarks.insert(pencilMarks.begin(), val);
