@@ -21,12 +21,12 @@ when in pencil mode.
 ### Command line arguments
 Arguments can be passed to the program when executing, the
 following arguments are:    
-nocolor disables red text on wrong input   
-noinstructions does not print the instructions to the right of the board    
-nocoords does not print the coordinates around the board
-notitle does not print the title    
-nomode does not print the mode the user is currently in
-clean is equivalent to noinstructions, nocoords, notitle and nomode    
+_nocolor_ disables red text on wrong input   
+_noinstructions_ does not print the instructions to the right of the board    
+_nocoords_ does not print the coordinates around the board    
+_notitle_ does not print the title    
+_nomode_ does not print the mode the user is currently in
+_clean_ is equivalent to _noinstructions_, _nocoords_, _notitle_ and _nomode_    
 
 None or all of the arguments may be passed to the program.
 
