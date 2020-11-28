@@ -255,7 +255,7 @@ void draw(int &nc_col, int &nc_row, int &gridTop, int &gridLeft,
     if (nc_row < HEIGHT || nc_col < WIDTH) {
         char error[] = "Not enough space to draw board";
         mvprintw(nc_row / 2, (nc_col - strlen(error)) / 2, "%s", error);
-        move(0,0);
+        move(y,x);
         refresh();
         return;
     }
