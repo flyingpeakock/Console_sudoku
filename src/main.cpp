@@ -400,7 +400,7 @@ int main(int argc, char *argv[]) {
     while (isRunning) {
         int y, x;
         getyx(stdscr, y, x);
-        if (nc_row >= HEIGHT + 1 && !(nc_row < HEIGHT || nc_col < WIDTH) && showMode) {
+        if (nc_row > HEIGHT && showMode) {
             move(top + 18, left - 2);
             clrtoeol();
             printw("%s", insertMode? "Insert mode" : "Pencil mode");
@@ -445,7 +445,7 @@ int main(int argc, char *argv[]) {
             insertMode = !insertMode;
             break;
         default:
-            if ((ch > L'0' && ch <= '9') || ch == L' ') {
+            if ((ch > L'0' && ch <= L'9') || ch == L' ') {
                 int row = (y - top) / 2;
                 int col = (x - left) / 4;
                 if (insertMode) {
