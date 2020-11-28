@@ -4,6 +4,7 @@
 #include <string.h>
 #include <locale.h>
 #include <vector>
+#include <ctime>
 
 #define WIDTH 37
 #define HEIGHT 19
@@ -391,6 +392,8 @@ int main(int argc, char *argv[]) {
     draw(nc_col, nc_row, top, left, grid, pencilMarks, showInstructions,
          showCoords, showTitle);
 
+    time_t start = time(NULL);
+
     bool insertMode = true;
     bool isRunning = true;
     while (isRunning) {
@@ -456,16 +459,40 @@ int main(int argc, char *argv[]) {
             }
 
             if (grid == solution) {
-                move(top + 18, left - 2);
-                clrtoeol();
-                printw("Winner winner, chicken dinner!");
                 isRunning = false;
             }
             move(y, x);
             refresh();
         }
     }
-    if (grid == solution)
+    if (grid == solution) {
+        time_t stop = time(NULL);
+        move(top + HEIGHT - 1, left - 2);
+        clrtoeol();
+        time_t totalTime = stop - start;
+        int hours = totalTime / (60 * 60);
+        int minutes = (totalTime - (hours * 60 * 60)) / 60;
+        int seconds = totalTime - (hours * 60 * 60) - (minutes * 60);
+        printw("Time taken: ");
+        if (hours > 1) {
+            printw("%d Hours " , hours);
+        }
+        else if (hours == 1) {
+            printw("%d Hour ", hours);
+        }
+        if (minutes > 1) {
+            printw("%d Minutes ", minutes);
+        }
+        else if(minutes == 1) {
+            printw("%d Minute ", minutes);
+        }
+        if (seconds > 1 || seconds == 0) {
+            printw("%d Seconds", seconds);
+        }
+        else if (seconds == 1) {
+            printw("%d Second", seconds);
+        }
         getch();
+    }
     endwin();
 }
