@@ -69,6 +69,7 @@ void input(std::array<std::array<int, 9>, 9> &grid,
     }
     if (val == ' ') {
         // Player wants to remove incorrect value
+        grid[row][col] = 0;
         printw(" ");
         move(y, x);
         pencil(pencilMarks, '\0');
