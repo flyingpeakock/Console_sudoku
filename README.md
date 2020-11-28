@@ -27,7 +27,7 @@ following arguments are:
 * _notitle_ does not print the title    
 * _nomode_ does not print the mode the user is currently in
 * _clean_ is equivalent to _noinstructions_, _nocoords_, _notitle_ and _nomode_    
-* Any number can be passed as an argument to specify the number of unknowns
+* Any number can be passed as an argument to specify the number of unfilled squares
 
 None or all of the arguments may be passed to the program.
 
