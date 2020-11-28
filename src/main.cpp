@@ -437,6 +437,9 @@ int main(int argc, char *argv[]) {
         case L'q':
             isRunning = false;
             break;
+        case 27:
+            insertMode = !insertMode;
+            break;
         default:
             if ((ch > L'0' && ch <= '9') || ch == L' ') {
                 int row = (y - top) / 2;
