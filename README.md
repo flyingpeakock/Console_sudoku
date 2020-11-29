@@ -33,12 +33,21 @@ following arguments are:
 None or all of the arguments may be passed to the program.
 
 ## How to Install
-clone this repository then compile using g++     
+clone this repository then compile using g++ or clang++    
+
+### Linux
 ```
 git clone https://github.com/flyingpeakock/Console_sudoku.git
 cd Console_sudoku/
 g++ -O3 ./src/*.cpp -lncurses -o console_sudoku
 ```
+### OSX
+```
+git clone https://github.com/flyingpeakock/Console_sudoku.git
+cd Console_sudoku/
+clang++ -O3 -std=c++11 -stdlib=libc++ ./src/*.cpp -lncurses -o console_sudoku
+```
+
 -lncurses flag is required to link ncurses.h   
 -O3 is recommended to speed up puzzle generation but is not required.   
 
