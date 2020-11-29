@@ -45,10 +45,10 @@ g++ -O3 ./src/*.cpp -lncurses -o console_sudoku
 ```
 git clone https://github.com/flyingpeakock/Console_sudoku.git
 cd Console_sudoku/
-clang++ -O3 -std=c++11 -stdlib=libc++ ./src/*.cpp -lncurses -o console_sudoku
+clang++ -O3 -std=c++11 -stdlib=libc++ ./src/*.cpp -lncursesw -o console_sudoku
 ```
 
--lncurses flag is required to link ncurses.h   
+-lncursesw flag is required to link ncurses.h   
 -O3 is recommended to speed up puzzle generation but is not required.   
 
 To run this program from any directory move the generated
@@ -58,12 +58,10 @@ cp console_sudoku ~/.local/bin/console_sudoku
 ```
 
 ### Troubleshooting
-If your console does not display the box characters but 
-instead displays something like M-b\~U\~T over and over you 
-can compile using -lncursesw instead.
-```
-g++ -O3 *.cpp -lncursesw -o console_sudoku
-```
+If the compiler cannot find ncurses.h you need to make sure that ncurses is installed.
+If you cannot find ncurses in your package manager it might be called something like
+libcurses or curses instead. If it still doesn't work use the -lncurses flag instead
+of -lncursesw when compiling.
 
 ## Screenshots
 ![new game](https://imgur.com/awu4dbQ.png)
