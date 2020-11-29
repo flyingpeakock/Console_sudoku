@@ -20,7 +20,7 @@ void pencil(std::vector<char> &pencilMarks, char val) {
         newMark = false;
     }
 
-    // If backspace or space, remove most recent pencilMark
+    // if space, remove most recent pencilMark
     if (val == ' ') {
         if (pencilMarks[0] != ' ') {
             pencilMarks.erase(pencilMarks.begin());
@@ -55,7 +55,7 @@ void pencil(std::vector<char> &pencilMarks, char val) {
 }
 
 void input(std::array<std::array<int, 9>, 9> &grid,
-           std::array<std::array<int, 9>, 9> &solution, 
+           std::array<std::array<int, 9>, 9> &startGrid,
            char val, 
            std::vector<char> &pencilMarks,
            int row,
@@ -63,8 +63,8 @@ void input(std::array<std::array<int, 9>, 9> &grid,
 
     int x, y;
     getyx(stdscr, y, x);
-    if (grid[row][col] == solution[row][col]) {
-        // Already correct value in space, do nothing
+    if (startGrid[row][col] != 0) {
+        // Trying to change given square, do nothing
         return;
     }
     if (val == ' ') {
@@ -75,17 +75,8 @@ void input(std::array<std::array<int, 9>, 9> &grid,
         pencil(pencilMarks, '\0');
         return;
     }
-    if ((int) (val - '0') != solution[row][col]) {
-        // Player is placing a bad value, mark it red
-        attron(COLOR_PAIR(1));
-    }
-    // Print a 3 long string to overwrite any pencil marks
-    attron(A_BOLD);
     mvprintw(y, x - 1, " %c ", val);
     grid[row][col] = val - '0';
-    attroff(A_BOLD);
-
-    attroff(COLOR_PAIR(1));
 }
 
 void go(int top, int left){
@@ -164,7 +155,7 @@ void printCoords(const int width, const int height) {
 }
 
 void printInstructions(const int width, const int height) {
-    const int row = height + 4;
+    const int row = height + 3;
     const int col = width + 42;
 
     mvaddch(row, col + 3, 'k');
@@ -184,7 +175,11 @@ void printInstructions(const int width, const int height) {
     attroff(A_UNDERLINE);
     printw("o");
     attron(A_UNDERLINE);
-    mvaddch(row + 11, col, 'q');
+    mvaddch(row+11, col, 'c');
+    attroff(A_UNDERLINE);
+    printw("heck");
+    attron(A_UNDERLINE);
+    mvaddch(row + 12, col, 'q');
     attroff(A_UNDERLINE);
     printw("uit");
 }
@@ -316,6 +311,36 @@ void removeMarks(char val, int row, int col,
     }
 }
 
+void checkPuzzle(std::array<std::array<int, 9>, 9> &grid,
+                 std::array<std::array<int, 9>, 9> &startGrid,
+                 std::array<std::array<int, 9>, 9> &solution,
+                 int row, int col) {
+    
+    int origCol = col;
+    int y, x;
+    getyx(stdscr, y, x);
+    for (auto i = 0; i < 9; i++) {
+        for (auto j = 0; j < 9; j++) {
+            char ch = grid[i][j] + '0';
+            if (grid[i][j] == solution[i][j] && startGrid[i][j] == 0) {
+                attron(COLOR_PAIR(2));
+                mvaddch(row, col, ch);
+                attroff(COLOR_PAIR(2));
+                startGrid[i][j] = solution[i][j];
+            }
+            else if (grid[i][j] != startGrid[i][j]) {
+                attron(COLOR_PAIR(1));
+                mvaddch(row, col, ch);
+                attroff(COLOR_PAIR(1));
+            }
+            col += 4;
+        }
+        col = origCol;
+        row += 2;
+    }
+    move(y, x);
+}
+
 
 int main(int argc, char *argv[]) {
     bool showInstructions = true;
@@ -360,8 +385,10 @@ int main(int argc, char *argv[]) {
     cbreak();  // Get input before enter is pressed
     noecho();  // Do not show keypresses
     if (has_colors() && showColor) {
+        use_default_colors();
         start_color();
-        init_pair(1, COLOR_RED, COLOR_BLACK);
+        init_pair(1, COLOR_RED, -1);
+        init_pair(2, COLOR_BLUE, -1);
     }
 
     attron(A_BOLD);
@@ -374,6 +401,9 @@ int main(int argc, char *argv[]) {
     Generator gen(maxUnknowns);
     auto grid = gen.getGrid();
     auto solution = gen.getSolution();
+
+    // Only change startgrid when checkPuzzle is called
+    auto startGrid = grid;
 
     // Initialize pencilmarks
     std::array<std::array<std::vector<char>, 9>, 9> pencilMarks;
@@ -404,8 +434,8 @@ int main(int argc, char *argv[]) {
             move(top + 18, left - 2);
             clrtoeol();
             printw("%s", insertMode? "Insert mode" : "Pencil mode");
-            move(y, x);
         }
+        move(y, x);
         refresh();
         wchar_t ch = wgetch(stdscr);
         switch (ch) {
@@ -441,6 +471,9 @@ int main(int argc, char *argv[]) {
         case L'q':
             isRunning = false;
             break;
+        case L'c':
+            checkPuzzle(grid, startGrid, solution, top, left);
+            break;
         case 27:
             insertMode = !insertMode;
             break;
@@ -449,7 +482,7 @@ int main(int argc, char *argv[]) {
                 int row = (y - top) / 2;
                 int col = (x - left) / 4;
                 if (insertMode) {
-                    input(grid, solution, ch, pencilMarks[row][col], row, col);
+                    input(grid, startGrid, ch, pencilMarks[row][col], row, col);
                     if ((int) (ch - '0') == solution[row][col]) {
                         removeMarks(ch, row, col, pencilMarks);
                         printPencil(left - 2, top - 1, pencilMarks, grid);
