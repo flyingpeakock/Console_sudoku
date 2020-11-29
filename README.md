@@ -58,8 +58,9 @@ g++ -O3 *.cpp -lncursesw -o console_sudoku
 ```
 
 ## Screenshots
-![new game](https://i.imgur.com/OQ39ENC.png)
-![Same game with pencil marks, a couple boxes filed in and a mistake](https://i.imgur.com/JpnAZH3.png)
+![new game](https://imgur.com/awu4dbQ.png)
+![Same game with pencil marks, a couple boxes filled in and a mistake](https://imgur.com/ooYHXm0.png)
+![Same game after check board has been called](https://imgur.com/vF97N1b.png)
 
 ## Generate or Solve Sudoku Puzzles
 You can use the Generator files and Solver files to generate
