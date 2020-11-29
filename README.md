@@ -14,8 +14,7 @@ column number then the row number. For example, to go to
 column 4, row 2 type g42. Press c to check the puzzle for any wrong
 inputs, mistakes turn red and correct inputs turn blue.
 This game supports up to 3 pencil marks per box.
-Wrong inputs are marked in red if your terminal supports it.
-To remove a wrong input or the most recent pencil mark press
+To remove a mistake or the most recent pencil mark press
 your spacebar in their respective modes.
 To remove a specific pencil mark enter that number in the box
 when in pencil mode.
