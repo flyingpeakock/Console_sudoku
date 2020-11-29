@@ -39,7 +39,7 @@ clone this repository then compile using g++ or clang++
 ```
 git clone https://github.com/flyingpeakock/Console_sudoku.git
 cd Console_sudoku/
-g++ -O3 ./src/*.cpp -lncurses -o console_sudoku
+g++ -O3 ./src/*.cpp -lncursesw -o console_sudoku
 ```
 ### OSX
 ```
