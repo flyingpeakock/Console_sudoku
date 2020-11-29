@@ -11,7 +11,8 @@ Press i or p to enter input mode or pencil mode respectively.
 You can also toggle between the two modes by pressing escape.
 To go to a specific box on the board type g followed by the 
 column number then the row number. For example, to go to 
-column 4, row 2 type g42.
+column 4, row 2 type g42. Press c to check the puzzle for any wrong
+inputs, mistakes turn red and correct inputs turn blue.
 This game supports up to 3 pencil marks per box.
 Wrong inputs are marked in red if your terminal supports it.
 To remove a wrong input or the most recent pencil mark press
@@ -22,7 +23,7 @@ when in pencil mode.
 ### Command line arguments
 Arguments can be passed to the program when executing, the
 following arguments are:    
-* _nocolor_ disables red text on wrong input   
+* _nocolor_ turns off color   
 * _noinstructions_ does not print the instructions to the right of the board    
 * _nocoords_ does not print the coordinates around the board    
 * _notitle_ does not print the title    
