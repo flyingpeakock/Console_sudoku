@@ -75,7 +75,9 @@ void input(std::array<std::array<int, 9>, 9> &grid,
         pencil(pencilMarks, '\0');
         return;
     }
+    attron(A_BOLD);
     mvprintw(y, x - 1, " %c ", val);
+    attroff(A_BOLD);
     grid[row][col] = val - '0';
 }
 
@@ -187,7 +189,7 @@ void printInstructions(const int width, const int height) {
 void printNumbs(const int width, const int height, std::array<std::array<int, 9>, 9> &grid) {
     int y = height + 1;
 
-    attron(A_BOLD);
+    attron(A_BOLD | A_UNDERLINE);
     for (auto ar : grid) {
         int x = width + 2;
         for (auto num : ar) {
@@ -199,7 +201,7 @@ void printNumbs(const int width, const int height, std::array<std::array<int, 9>
         }
         y += 2;
     }
-    attroff(A_BOLD);
+    attroff(A_BOLD | A_UNDERLINE);
 }
 
 void printPencil(const int width, const int height,
@@ -323,9 +325,9 @@ void checkPuzzle(std::array<std::array<int, 9>, 9> &grid,
         for (auto j = 0; j < 9; j++) {
             char ch = grid[i][j] + '0';
             if (grid[i][j] == solution[i][j] && startGrid[i][j] == 0) {
-                attron(COLOR_PAIR(2));
+                attron(COLOR_PAIR(2) | A_BOLD);
                 mvaddch(row, col, ch);
-                attroff(COLOR_PAIR(2));
+                attroff(COLOR_PAIR(2) | A_BOLD);
                 startGrid[i][j] = solution[i][j];
             }
             else if (grid[i][j] != startGrid[i][j]) {
