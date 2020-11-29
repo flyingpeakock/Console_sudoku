@@ -331,9 +331,9 @@ void checkPuzzle(std::array<std::array<int, 9>, 9> &grid,
                 startGrid[i][j] = solution[i][j];
             }
             else if (grid[i][j] != startGrid[i][j]) {
-                attron(COLOR_PAIR(1));
+                attron(COLOR_PAIR(1) | A_BOLD);
                 mvaddch(row, col, ch);
-                attroff(COLOR_PAIR(1));
+                attroff(COLOR_PAIR(1) | A_BOLD);
             }
             col += 4;
         }
