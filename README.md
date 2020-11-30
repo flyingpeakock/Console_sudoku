@@ -48,6 +48,12 @@ cd Console_sudoku/
 clang++ -O3 -std=c++11 -stdlib=libc++ ./src/*.cpp -lncursesw -o console_sudoku
 ```
 
+### AUR
+This program is also located on the arch user repository.
+```
+yay -S console_sudoku
+```
+
 -lncursesw flag is required to link ncurses.h   
 -O3 is recommended to speed up puzzle generation but is not required.   
 
