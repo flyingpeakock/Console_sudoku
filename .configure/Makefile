@@ -9,3 +9,6 @@
 
  console_sudoku:${OBJ}
 	${CC} ${CFLAG} ${INCLUDES} -o ../$@ ${OBJS} ${LIBS}
+
+install:
+	mv ../$@ /usr/bin
