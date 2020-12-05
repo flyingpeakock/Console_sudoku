@@ -468,6 +468,13 @@ int main(int argc, char *argv[]) {
             insertMode = false;
             break;
         case L'g':
+            if (nc_row > HEIGHT && showMode) {
+                move(top + 18, left - 2);
+                clrtoeol();
+                printw("Go");
+                move(y, x);
+                refresh();
+            }
             go(top, left);
             break;
         case L'q':
