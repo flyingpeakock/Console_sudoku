@@ -12,7 +12,8 @@ You can also toggle between the two modes by pressing escape.
 To go to a specific box on the board type g followed by the 
 column number then the row number. For example, to go to 
 column 4, row 2 type g42. Press c to check the puzzle for any wrong
-inputs, mistakes turn red and correct inputs turn blue.
+inputs, mistakes turn red and correct inputs turn blue. Press c
+again to remove the colors.
 This game supports up to 3 pencil marks per box.
 To remove a mistake or the most recent pencil mark press
 your spacebar in their respective modes.
@@ -20,17 +21,8 @@ To remove a specific pencil mark enter that number in the box
 when in pencil mode.
 
 ### Command line arguments
-Arguments can be passed to the program when executing, the
-following arguments are:    
-* _nocolor_ turns off color   
-* _noinstructions_ does not print the instructions to the right of the board    
-* _nocoords_ does not print the coordinates around the board    
-* _notitle_ does not print the title    
-* _nomode_ does not print the mode the user is currently in
-* _clean_ is equivalent to _noinstructions_, _nocoords_, _notitle_ and _nomode_    
-* Any number can be passed as an argument to specify the number of unfilled squares
-
-None or all of the arguments may be passed to the program.
+You can pass the max number of empty boxes in the generated board
+by passing any integer greater than 0 as an argument.
 
 ## How to Install
 clone this repository then compile using g++ or clang++    
