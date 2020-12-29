@@ -34,34 +34,37 @@ Window::~Window() {
 }
 
 void Window::printBoard() {
+    int oldRows = windowRows;
+    int oldCols = windowCols;
     getmaxyx(stdscr, windowRows, windowCols);
+    bool resize = (oldRows != windowRows || oldCols != windowCols);
 
     boardTop = (windowRows - BoardRows) / 2;
     boardLeft = (windowCols - BoardCols) / 2;
     int gridTop = boardTop + 1;
     int gridLeft = boardLeft + 2;
 
-    clear();
-
-    if (windowRows < BoardRows || windowCols < BoardCols) {
-        char error[] = "Not enough space to draw board";
-        mvprintw(windowRows / 2, (windowCols - strlen(error)) / 2, "%s", error);
-        refresh();
-        return;
+    if (resize) {
+        clear();
+        if (windowRows < BoardRows || windowCols < BoardCols) {
+            char error[] = "Not enough space to draw board";
+            mvprintw(windowRows / 2, (windowCols - strlen(error)) / 2, "%s", error);
+            refresh();
+            return;
+        }
+        if (windowRows - BoardRows > 3) {
+            attron(A_BOLD | A_UNDERLINE);
+            char title[] = "Console Sudoku";
+            mvprintw(boardTop - 3, (windowCols - strlen(title)) / 2, "%s", title);
+            attroff(A_BOLD | A_UNDERLINE);
+        }
+        printBoxes();
+        printInstructions();
+        printCoords();
     }
 
-    if (windowRows - BoardRows > 3) {
-        attron(A_BOLD | A_UNDERLINE);
-        char title[] = "Console Sudoku";
-        mvprintw(boardTop - 3, (windowCols - strlen(title)) / 2, "%s", title);
-        attroff(A_BOLD | A_UNDERLINE);
-    }
-
-    printBoxes();
     printPencil();
     printNumbs();
-    printInstructions();
-    printCoords();
     printMode();
     printCursor();
     refresh();

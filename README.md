@@ -62,9 +62,10 @@ libcurses or curses instead. If it still doesn't work use the -lncurses flag ins
 of -lncursesw when compiling.
 
 ## Screenshots
-![new game](https://imgur.com/awu4dbQ.png)
-![Same game with pencil marks, a couple boxes filled in and a mistake](https://imgur.com/ooYHXm0.png)
-![Same game after check board has been called](https://imgur.com/vF97N1b.png)
+![new game](https://i.imgur.com/tdfuKdU.png)
+![same game played a little](https://imgur.com/ooYHXm0.png)
+![same game with check](https://imgur.com/vF97N1b.png)
+![completed game]()
 
 ## Generate or Solve Sudoku Puzzles
 You can use the Generator files and Solver files to generate
