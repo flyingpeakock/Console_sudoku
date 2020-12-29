@@ -63,9 +63,8 @@ of -lncursesw when compiling.
 
 ## Screenshots
 ![new game](https://i.imgur.com/tdfuKdU.png)
-![same game played a little](https://imgur.com/ooYHXm0.png)
-![same game with check](https://imgur.com/vF97N1b.png)
-![completed game]()
+![same game played a little](https://i.imgur.com/PNx97O4.png)
+![same game with check](https://i.imgur.com/oepPYYt.png)
 
 ## Generate or Solve Sudoku Puzzles
 You can use the Generator files and Solver files to generate
