@@ -63,8 +63,8 @@ void Window::printBoard() {
         printCoords();
     }
 
-    printPencil();
     printNumbs();
+    printPencil();
     printMode();
     printCursor();
     refresh();
@@ -140,18 +140,24 @@ void Window::printNumbs() {
         int col = boardLeft + 2;
         for (auto j = 0; j < 9; j++) {
             const char ch = grid[i][j] + '0';
-            if (ch - '0' == start[i][j] && ch != '0') {
+            if (ch < '1') {
+                col += 4;
+                continue;
+            }
+
+            // Draw over potential pencilmarks
+            mvprintw(row, col - 1, "   ");
+
+            if (ch - '0' == start[i][j]) {
                 attron(A_UNDERLINE);
             }
-            else if (checkColors && grid[i][j] == solution[i][j] && ch != '0') {
+            else if (checkColors && grid[i][j] == solution[i][j]) {
                 attron(COLOR_PAIR(2));
             }
-            else if (checkColors && grid[i][j] != solution[i][j] && ch != '0') {
+            else if (checkColors && grid[i][j] != solution[i][j]) {
                 attron(COLOR_PAIR(1));
             }
-            if (ch > '0') {
-                mvaddch(row, col, ch);
-            }
+            mvaddch(row, col, ch);
             attroff(A_UNDERLINE);
             attroff(COLOR_PAIR(2));
             attroff(COLOR_PAIR(1));
@@ -222,6 +228,7 @@ void Window::printMode() {
         return;
     }
     move(boardTop + BoardRows, boardLeft);
+    clrtoeol();
     printw("%s", mode.c_str());
 }
 
