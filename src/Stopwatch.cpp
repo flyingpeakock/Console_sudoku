@@ -1,32 +1,47 @@
 #include "Stopwatch.h"
+#include <chrono>
 
-Stopwatch::Stopwatch() {
-    startT = 0;
-    stopT = 0;
+bool Stopwatch::running = false;
+std::thread Stopwatch::counter;
+int Stopwatch::seconds = 0;
+int Stopwatch::minutes = 0;
+int Stopwatch::hours = 0;
+
+Stopwatch::Stopwatch(){
 }
 
 void Stopwatch::start() {
-    startT = time(NULL);
+    if (running == true) {
+        return;
+    }
+    running = true;
+    counter = std::thread(&count);
 }
 
 void Stopwatch::stop() {
-    if (startT == 0) {
-        return;
+    running = false;
+    counter.join();
+}
+
+void Stopwatch::count() {
+    while (running) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        if (seconds == 60) {
+            seconds = 0;
+            minutes++;
+        }
+        else if (minutes == 60) {
+            minutes = 0;
+            hours++;
+        }
+        else {
+            seconds++;
+        }
     }
-    stopT = time(NULL);
 }
 
 std::string Stopwatch::timeTaken() {
-    if (stopT == 0) {
-        return "Stopwatch not stopped";
-    }
-
-    time_t totalTime = stopT - startT;
     std::ostringstream timeStr;
-
-    int hours = totalTime / (60 * 60);
-    int minutes = (totalTime - (hours * 60 * 60)) / 60;
-    int seconds = totalTime - (hours * 60 * 60) - (minutes * 60);
 
     timeStr << "Time taken: ";
     if (hours > 1) {

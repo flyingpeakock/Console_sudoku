@@ -1,12 +1,17 @@
 #pragma once
-#include <ctime>
+// #include <ctime>
+#include <thread>
 #include <sstream>
 
 class Stopwatch {
     private:
-        time_t startT;
-        time_t stopT;
+        static bool running;
+        static std::thread counter;
+        static int seconds;
+        static int minutes;
+        static int hours;
     public:
+        static void count();
         Stopwatch();
         void start();
         void stop();
