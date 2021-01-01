@@ -31,13 +31,13 @@ clone this repository then compile using g++ or clang++
 ```
 git clone https://github.com/flyingpeakock/Console_sudoku.git
 cd Console_sudoku/
-g++ -O3 ./src/*.cpp -lncursesw -o console_sudoku
+g++ -O3 -pthread ./src/*.cpp -lncursesw -o console_sudoku
 ```
 ### OSX
 ```
 git clone https://github.com/flyingpeakock/Console_sudoku.git
 cd Console_sudoku/
-clang++ -O3 -std=c++11 -stdlib=libc++ ./src/*.cpp -lncursesw -o console_sudoku
+clang++ -O3 -pthread -std=c++11 -stdlib=libc++ ./src/*.cpp -lncursesw -o console_sudoku
 ```
 
 ### AUR
