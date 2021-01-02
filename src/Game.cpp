@@ -3,7 +3,7 @@
 #include <ctime>
 #include <sstream>
 
-Game::Game(int maxUnknowns): board(maxUnknowns), window(&board) {
+Game::Game(int maxUnknowns, char * navKeys): board(maxUnknowns), window(&board, navKeys) {
     mode = 'i';
     row = 0;
     col = 0;
@@ -18,37 +18,42 @@ void Game::mainLoop() {
         wchar_t prevMode = mode;
         int ch = wgetch(stdscr);
         mvaddch(0,0,ch);
+        
         switch (ch) {
         case KEY_LEFT:
-        case L'h':
+        case 'a':
+        case 'h':
             left();
             break;
         case KEY_DOWN:
-        case L'j':
+        case 's':
+        case 'j':
             down();
             break;
         case KEY_UP:
-        case L'k':
+        case 'w':
+        case 'k':
             up();
             break;
         case KEY_RIGHT:
-        case L'l':
+        case 'd':
+        case 'l':
             right();
             break;
-        case L'g':
+        case 'g':
             changeMode(ch);
             window.printBoard();
             go();
             changeMode(prevMode);
             break;
-        case L'i':
-        case L'p':
+        case 'i':
+        case 'p':
             changeMode(ch);
             break;
-        case L'q':
+        case 'q':
             board.stopPlaying();
             break;
-        case L'c':
+        case 'c':
             window.check();
             break;
         case 27:
@@ -60,7 +65,7 @@ void Game::mainLoop() {
             }
             break;
         default:
-            if ((ch > L'0' && ch <= L'9') || ch == L' ') {
+            if ((ch > '0' && ch <= '9') || ch == ' ') {
                 if (mode == 'i') {
                     insert(ch);
                 }
@@ -69,6 +74,7 @@ void Game::mainLoop() {
                 }
             }
         }
+
         board.isWon();
     }
     timer.stop();

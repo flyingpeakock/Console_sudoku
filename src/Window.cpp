@@ -2,7 +2,7 @@
 #include <locale.h>
 #include <string.h>
 
-Window::Window(Board *g){
+Window::Window(Board *g, char *navKeys){
     game = g;
 
     mode = "Insert mode";
@@ -10,6 +10,12 @@ Window::Window(Board *g){
     checkColors = false;
     cursorRow = 0;
     cursorCol = 0;
+
+    auto keyidx = 0;
+    leftKey = navKeys[keyidx++];
+    downKey = navKeys[keyidx++];
+    upKey = navKeys[keyidx++];
+    rightKey = navKeys[keyidx++];
 
     setlocale(LC_ALL, "");
     
@@ -177,10 +183,10 @@ void Window::printInstructions() {
     int row = boardTop + 3;
     int col = boardLeft + BoardCols + 5;
 
-    mvaddch(row, col + 3, 'k');
-    mvaddch(row + 2, col, 'h');
-    mvaddch(row + 2, col + 6, 'l');
-    mvaddch(row + 4, col + 3, 'j');
+    mvaddch(row, col + 3, upKey);
+    mvaddch(row + 2, col, leftKey);
+    mvaddch(row + 2, col + 6, rightKey);
+    mvaddch(row + 4, col + 3, downKey);
     attron(A_UNDERLINE);
     mvaddch(row + 8, col, 'i');
     attroff(A_UNDERLINE);

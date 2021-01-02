@@ -16,6 +16,11 @@ class Window {
         std::string mode;
         bool checkColors;
 
+        char leftKey;
+        char downKey;
+        char upKey;
+        char rightKey;
+
         void printBoxes();
         void printPencil();
         void printNumbs();
@@ -24,7 +29,7 @@ class Window {
         void printMode();
         void printCursor();
     public:
-        Window(Board *g);
+        Window(Board *g, char *navKeys);
         ~Window();
         void moveCursor(int row, int col);
         void printBoard();

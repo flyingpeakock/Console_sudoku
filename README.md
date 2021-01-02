@@ -6,7 +6,7 @@ written entirely in C++
 ## How to Play
 Fill in all the missing squares with no repeating digits in
 the column, row or box.
-Use hjkl or arrow keys to navigate around the board.
+Use hjkl, wasd or arrow keys to navigate around the board.
 Press i or p to enter input mode or pencil mode respectively.
 You can also toggle between the two modes by pressing escape.
 To go to a specific box on the board type g followed by the 
@@ -22,7 +22,8 @@ when in pencil mode.
 
 ### Command line arguments
 You can pass the max number of empty boxes in the generated board
-by passing any integer greater than 0 as an argument.
+by passing any integer greater than 0 as an argument.    
+To change the text on the right from hjkl to wasd pass the argument -w or --wasd
 
 ## How to Install
 clone this repository then compile using g++ or clang++    
