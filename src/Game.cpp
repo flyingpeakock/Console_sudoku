@@ -16,17 +16,22 @@ void Game::mainLoop() {
     while (board.isPlaying()) {
         window.printBoard();
         wchar_t prevMode = mode;
-        wchar_t ch = wgetch(stdscr);
+        int ch = wgetch(stdscr);
+        mvaddch(0,0,ch);
         switch (ch) {
+        case KEY_LEFT:
         case L'h':
             left();
             break;
+        case KEY_DOWN:
         case L'j':
             down();
             break;
+        case KEY_UP:
         case L'k':
             up();
             break;
+        case KEY_RIGHT:
         case L'l':
             right();
             break;

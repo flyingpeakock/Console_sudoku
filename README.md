@@ -6,7 +6,7 @@ written entirely in C++
 ## How to Play
 Fill in all the missing squares with no repeating digits in
 the column, row or box.
-Use hjkl to navigate around the board.
+Use hjkl or arrow keys to navigate around the board.
 Press i or p to enter input mode or pencil mode respectively.
 You can also toggle between the two modes by pressing escape.
 To go to a specific box on the board type g followed by the 

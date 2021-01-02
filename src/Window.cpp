@@ -17,6 +17,7 @@ Window::Window(Board *g){
 
     cbreak(); // Get input before enter is pressed;
     noecho(); // Don't show keypresses
+    keypad(stdscr, true); // Use arrow keys to move
 
     if (has_colors()) {
         use_default_colors();
