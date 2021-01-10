@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
         if (atoi(argv[i]) > 0) {
             maxUnknowns = atoi(argv[i]);
         }
-        if (strcmp(argv[i], "-w") || strcmp(argv[i], "--wasd")) {
+        if (strcmp(argv[i], "-w") == 0 || strcmp(argv[i], "--wasd") == 0) {
             strcpy(navKeys, "aswd");
         }
     }
