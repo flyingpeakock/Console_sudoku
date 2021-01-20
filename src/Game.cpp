@@ -17,8 +17,6 @@ void Game::mainLoop() {
         window.printBoard();
         wchar_t prevMode = mode;
         int ch = wgetch(stdscr);
-        mvaddch(0,0,ch);
-        
         switch (ch) {
         case KEY_LEFT:
         case 'a':
@@ -145,7 +143,8 @@ void Game::right() {
 }
 
 void Game::go() {
-    char r, c = 0;
+    char r = 0;
+    char c = 0;
     while (c < '1' || c > '9') {
         c = getch();
         if (c == 'q') {
