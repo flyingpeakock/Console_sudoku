@@ -116,28 +116,28 @@ void Game::changeMode(wchar_t c) {
 
 void Game::up() {
     if (row <= 0) {
-        return;
+        row = 9;
     }
     window.moveCursor(--row, col);
 }
 
 void Game::down() {
     if (row >= 8) {
-        return;
+        row = -1;
     }
     window.moveCursor(++row, col);
 }
 
 void Game::left() {
     if (col <= 0) {
-        return;
+        col = 9;
     }
     window.moveCursor(row, --col);
 }
 
 void Game::right() {
     if (col >= 8) {
-        return;
+        col = -1;
     }
     window.moveCursor(row, ++col);
 }
