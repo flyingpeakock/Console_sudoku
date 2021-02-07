@@ -63,9 +63,9 @@ libcurses or curses instead. If it still doesn't work use the -lncurses flag ins
 of -lncursesw when compiling.
 
 ## Screenshots
-![new game](https://i.imgur.com/tdfuKdU.png)
-![same game played a little](https://i.imgur.com/PNx97O4.png)
-![same game with check](https://i.imgur.com/oepPYYt.png)
+![new game](https://i.imgur.com/qE879fN.png)
+![same game played a little](https://i.imgur.com/nLHjHNu.png)
+![same game with check](https://i.imgur.com/pZmdl6y.png)
 
 ## Generate or Solve Sudoku Puzzles
 You can use the Generator files and Solver files to generate
