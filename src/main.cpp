@@ -11,6 +11,8 @@ void printHelp() {
                            "Optional args:\n"
                            "-h, --help       View this page\n"
                            "-w,  --wasd      Display wasd instead of hjkl\n"
+                           "--opensudoku     Load a puzzle from an opensudoku file\n"
+                           "--sdm            Load a puzzle from an smd file\n"
                            "INTEGER          Number of squares to leave empty\n\n"
                            "Move with hjkl, wasd or the arrow keys.\n"
                            "Enter pencil mode by pressing 'p'.\n"
@@ -49,6 +51,19 @@ std::string getRandomXMLPuzzle(const char *fileName) {
     return puzzles[rand() % puzzles.size()];
 }
 
+std::string getRandomSdmPuzzle(const char *fileName) {
+    std::ifstream file;
+    std::vector<std::string> puzzles;
+    std::string line;
+    file.open(fileName);
+    while(getline(file, line)) {
+        puzzles.push_back(line);
+    }
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    srand(seed);
+    return puzzles[rand() % puzzles.size()];
+}
+
 int main(int argc, char *argv[]) {
     int maxUnknowns = 0;
     char navKeys[] = "hjkl";
@@ -64,8 +79,11 @@ int main(int argc, char *argv[]) {
             printHelp();
             return 0;
         }
-        if (strcmp(argv[i], "--opensudoku") == 0) {
+        if (strcmp(argv[i], "--opensudoku") == 0 && !gen) {
             gen = new Generator(getRandomXMLPuzzle(argv[i+1]).c_str());
+        }
+        if (strcmp(argv[i], "--sdm") == 0 && !gen) {
+            gen = new Generator(getRandomSdmPuzzle(argv[i+1]).c_str());
         }
     }
     if (!gen)
