@@ -10,7 +10,7 @@ class Game{
         wchar_t mode;
         int row, col;
     public:
-        Game(int maxUnknowns, char *navKeys);
+        Game(Board b, char *navKeys);
         void mainLoop();
         void changeMode(wchar_t c);
         void up();

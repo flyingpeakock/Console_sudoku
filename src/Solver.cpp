@@ -2,6 +2,8 @@
 #include <algorithm>
 #include <random>
 #include <chrono>
+#include <string.h>
+#include <stdexcept>
 
 #define SIZE 9
 
@@ -35,6 +37,18 @@ Solver::Solver(int **board) {
 Solver::Solver(std::array<std::array<int, 9>, 9> board) {
     solutions = 0;
     grid = board;
+}
+
+Solver::Solver(const char *board) {
+    solutions = 0;
+    auto idx = 0;
+    if (strlen(board) != 81)
+        throw std::invalid_argument("Wrong amount of digits to make a 9x9 sudoku");
+    for (auto i = 0; i < SIZE; i++) {
+        for (auto j = 0; j < SIZE; j++) {
+            grid[i][j] = board[idx++] - '0';
+        }
+    }
 }
 
 std::array<std::array<int, 9>, 9> Solver::getGrid() {

@@ -1,5 +1,9 @@
 #include "Game.h"
 #include <string.h>
+#include <string>
+#include <fstream>
+#include <chrono>
+#include <random>
 
 void printHelp() {
     const char *helptext = "usage: console_sodoku [OPTIONS] \n\n"
@@ -23,9 +27,32 @@ void printHelp() {
     printf(helptext);
 }
 
+std::string getRandomXMLPuzzle(const char *fileName) {
+    std::ifstream file;
+    std::string line;
+    std::vector<std::string> puzzles;
+    file.open(fileName);
+    while (getline(file, line)) {
+        std::size_t found = line.find("<game data=");
+        if (found == std::string::npos)
+            continue;
+        std::size_t begin = line.find("'");
+        if (begin == std::string::npos)
+            begin = line.find("\"");
+        std::size_t end = line.rfind("'");
+        if (end == std::string::npos)
+            end = line.rfind("\"");
+        puzzles.emplace_back(line.substr(begin+1, end - begin - 1));
+    }
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    srand(seed);
+    return puzzles[rand() % puzzles.size()];
+}
+
 int main(int argc, char *argv[]) {
     int maxUnknowns = 0;
     char navKeys[] = "hjkl";
+    Generator *gen = nullptr;
     for (auto i = 1; i < argc; i++) {
         if (atoi(argv[i]) > 0) {
             maxUnknowns = atoi(argv[i]);
@@ -37,8 +64,14 @@ int main(int argc, char *argv[]) {
             printHelp();
             return 0;
         }
+        if (strcmp(argv[i], "--opensudoku") == 0) {
+            gen = new Generator(getRandomXMLPuzzle(argv[i+1]).c_str());
+        }
     }
-
-    Game game(maxUnknowns, navKeys);
+    if (!gen)
+        gen = new Generator(maxUnknowns);
+    Board board(*gen);
+    Game game(board, navKeys);
     game.mainLoop();
+    delete gen;
 }

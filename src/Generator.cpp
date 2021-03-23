@@ -3,8 +3,24 @@
 #include <algorithm>
 #include <random>
 #include <chrono>
+#include <string.h>
+#include <stdexcept>
 
 #define SIZE 9
+
+Generator::Generator(const char *gridString) {
+    if (strlen(gridString) != 81)
+        throw std::invalid_argument("Wrong amount of digits for a sudoku puzzle");
+    
+    auto idx = 0;
+    for (auto i = 0; i < 9; i++) {
+        for (auto j = 0; j < 9; j++) {
+            grid[i][j] = gridString[idx++] - '0';
+        }
+    }
+    solver = Solver(gridString);
+    solver.solve();
+}
 
 Generator::Generator(int maxUnknowns) {
 

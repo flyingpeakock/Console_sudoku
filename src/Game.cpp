@@ -3,7 +3,7 @@
 #include <ctime>
 #include <sstream>
 
-Game::Game(int maxUnknowns, char * navKeys): board(maxUnknowns), window(&board, navKeys) {
+Game::Game(Board b, char *navKeys): board(b), window(&board, navKeys) {
     mode = 'i';
     row = 0;
     col = 0;

@@ -14,8 +14,7 @@ class Board {
 
         bool playing;
     public:
-        Board(int maxEmptySquares);
-
+        Board(Generator gen);
         void startPlaying();
         void stopPlaying();
         bool isPlaying();

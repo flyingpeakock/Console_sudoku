@@ -13,6 +13,7 @@ class Solver {
         Solver(int board[9][9]);
         Solver(int **board);
         Solver(std::array<std::array<int, 9>, 9> board);
+        Solver(const char *board);
         std::array<std::array<int, 9>, 9> getGrid();
         void solve();
         bool isUnique();

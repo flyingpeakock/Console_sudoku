@@ -1,12 +1,6 @@
 #include "Board.h"
 
-Board::Board(int maxEmptySquares) {
-    Generator gen(maxEmptySquares);
-    playing = false;
-    playGrid = gen.getGrid();
-    startGrid = playGrid;
-    solutionGrid = gen.getSolution();
-
+Board::Board(Generator gen): playGrid(gen.getGrid()), startGrid(playGrid), solutionGrid(gen.getSolution()) {
     for (auto &array : pencilMarks) {
         for (auto &vec : array) {
             for (auto i = 0; i < 3; i++) {
