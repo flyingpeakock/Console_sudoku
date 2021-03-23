@@ -23,7 +23,8 @@ when in pencil mode.
 ### Command line arguments
 You can pass the max number of empty boxes in the generated board
 by passing any integer greater than 0 as an argument.    
-To change the text on the right from hjkl to wasd pass the argument -w or --wasd
+To change the text on the right from hjkl to wasd pass the argument -w or --wasd.    
+This program is able to parse opensudoku and sdm files for puzzles. Pass --opensudoku or --sdm followed by the filename to parse the file.
 
 ## How to Install
 clone this repository then compile using g++ or clang++    
