@@ -11,7 +11,7 @@ Stopwatch::Stopwatch(){
 }
 
 void Stopwatch::start() {
-    if (running == true) {
+    if (running) {
         return;
     }
     running = true;
