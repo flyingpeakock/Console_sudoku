@@ -144,7 +144,6 @@ void Window::printNumbs() {
     auto solution = game ->getSolution();
 
     int row = boardTop + 1;
-    attron(A_BOLD);
     for (auto i = 0; i < 9; i++) {
         int col = boardLeft + 2;
         for (auto j = 0; j < 9; j++) {
@@ -154,6 +153,12 @@ void Window::printNumbs() {
                 continue;
             }
 
+            attron(A_BOLD);
+
+            if (!game->isRemaining(ch - '0')) {
+                attroff(A_BOLD);
+                attron(A_DIM);
+            }
             // Draw over potential pencilmarks
             mvprintw(row, col - 1, "   ");
 
@@ -175,6 +180,7 @@ void Window::printNumbs() {
             attroff(COLOR_PAIR(3));
             attroff(COLOR_PAIR(2));
             attroff(COLOR_PAIR(1));
+            attroff(A_DIM);
             col += 4;
         }
         row += 2;

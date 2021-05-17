@@ -8,6 +8,16 @@ Board::Board(Generator gen): playGrid(gen.getGrid()), startGrid(playGrid), solut
             }
         }
     }
+
+    for (auto i = 1; i <= 9; i++) {
+        count.insert({i, 0});
+        for (auto j = 1; j <= 9; j++) {
+            int val = startGrid[i][j];
+            if (val != 0) {
+                count[val]++;
+            }
+        }
+    }
 }
 
 void Board::startPlaying() {
@@ -53,11 +63,13 @@ void Board::insert(char val, int row, int col) {
     }
 
     if (val == ' ' || val == '0') {
+        count[playGrid[row][col]]--;
         playGrid[row][col] = 0;
         return;
     }
 
     if (val >= '0' && val <= '9') {
+        count[val - '0']++;
         playGrid[row][col] = val - '0';
     }
 
@@ -128,4 +140,10 @@ void Board::removeMarks(char val, int row, int col) {
             }
         }
     }
+}
+
+bool Board::isRemaining(int val) {
+    if (val == 0)
+        return true;
+    return count[val] < 9;
 }

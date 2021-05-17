@@ -1,6 +1,7 @@
 #pragma once
 #include "Generator.h"
 #include <vector>
+#include <map>
 
 class Board {
     private:
@@ -9,6 +10,8 @@ class Board {
         std::array<std::array<int, 9>, 9> solutionGrid;
 
         std::array<std::array<std::vector<char>, 9>, 9> pencilMarks;
+
+        std::map<int, int> count;
 
         void removeMarks(char val, int row, int col);
 
@@ -19,6 +22,7 @@ class Board {
         void stopPlaying();
         bool isPlaying();
         bool isWon();
+        bool isRemaining(int val);
 
         std::array<std::array<std::vector<char>, 9>, 9> &getPencilMarks();
         std::array<std::array<int, 9>, 9> &getPlayGrid();
