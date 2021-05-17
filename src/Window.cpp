@@ -10,6 +10,7 @@ Window::Window(Board *g, char *navKeys){
     checkColors = false;
     cursorRow = 0;
     cursorCol = 0;
+    highlightNum = 0;
 
     auto keyidx = 0;
     leftKey = navKeys[keyidx++];
@@ -30,6 +31,7 @@ Window::Window(Board *g, char *navKeys){
         start_color();
         init_pair(1, COLOR_RED, -1);
         init_pair(2, COLOR_BLUE, -1);
+        init_pair(3, COLOR_YELLOW, -1);
     }
 
     printBoard();
@@ -155,6 +157,10 @@ void Window::printNumbs() {
             // Draw over potential pencilmarks
             mvprintw(row, col - 1, "   ");
 
+            if (!checkColors && ch - '0' == highlightNum) {
+                attron(COLOR_PAIR(3));
+            }
+
             if (ch - '0' == start[i][j]) {
                 attron(A_UNDERLINE);
             }
@@ -166,6 +172,7 @@ void Window::printNumbs() {
             }
             mvaddch(row, col, ch);
             attroff(A_UNDERLINE);
+            attroff(COLOR_PAIR(3));
             attroff(COLOR_PAIR(2));
             attroff(COLOR_PAIR(1));
             col += 4;
@@ -256,4 +263,18 @@ void Window::changeMode(std::string s) {
 
 void Window::check() {
     checkColors = !checkColors;
+}
+
+void Window::select(int val) {
+    if (val == ' ') {
+        int initValue = game->getStartGrid()[cursorRow][cursorCol];
+        if (initValue == 0) {
+            highlightNum = 0;
+            return;
+        }
+        highlightNum = initValue;
+    }
+    else {
+        highlightNum = val - '0';
+    }
 }

@@ -15,6 +15,7 @@ class Window {
         int boardLeft;
         std::string mode;
         bool checkColors;
+        int highlightNum;
 
         char leftKey;
         char downKey;
@@ -35,4 +36,5 @@ class Window {
         void printBoard();
         void changeMode(std::string s);
         void check();
+        void select(int val);
 };

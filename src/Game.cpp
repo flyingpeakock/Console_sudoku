@@ -64,6 +64,7 @@ void Game::mainLoop() {
             break;
         default:
             if ((ch > '0' && ch <= '9') || ch == ' ') {
+                window.select(ch);
                 if (mode == 'i') {
                     insert(ch);
                 }
