@@ -69,6 +69,8 @@ void Board::insert(char val, int row, int col) {
     }
 
     if (val >= '0' && val <= '9') {
+        if (playGrid[row][col] != 0)
+            count[playGrid[row][col]]--;
         count[val - '0']++;
         playGrid[row][col] = val - '0';
     }
