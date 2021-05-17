@@ -32,6 +32,7 @@ Window::Window(Board *g, char *navKeys){
         init_pair(1, COLOR_RED, -1);
         init_pair(2, COLOR_BLUE, -1);
         init_pair(3, COLOR_YELLOW, -1);
+        init_pair(4, COLOR_CYAN, -1);
     }
 
     printBoard();
@@ -156,8 +157,7 @@ void Window::printNumbs() {
             attron(A_BOLD);
 
             if (!game->isRemaining(ch - '0')) {
-                attroff(A_BOLD);
-                attron(A_DIM);
+                attron(COLOR_PAIR(4));
             }
             // Draw over potential pencilmarks
             mvprintw(row, col - 1, "   ");
@@ -177,10 +177,10 @@ void Window::printNumbs() {
             }
             mvaddch(row, col, ch);
             attroff(A_UNDERLINE);
+            attroff(COLOR_PAIR(4));
             attroff(COLOR_PAIR(3));
             attroff(COLOR_PAIR(2));
             attroff(COLOR_PAIR(1));
-            attroff(A_DIM);
             col += 4;
         }
         row += 2;
