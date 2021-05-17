@@ -22,7 +22,7 @@ void printHelp() {
                            "Quit the game by pressing 'q'.\n"
                            "To highlight any occurence of a number insert the number in any mode or\n"
                            "press spacebar on a prefilled box.\n"
-                           "Hint: pencilmarks do not show up on filled in boxes, use this to highlight."
+                           "Hint: pencilmarks do not show up on filled in boxes, use this to highlight.\n\n"
                            "For information on Sudoku puzzles see the wikipedia entry:\n"
                            "https://en.wikipedia.org/wiki/Sudoku\n\n"
                            "See the readme for more information.\n"
