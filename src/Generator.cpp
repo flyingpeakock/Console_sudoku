@@ -8,6 +8,8 @@
 
 #define SIZE 9
 
+Generator::Generator():Generator(81){};
+
 Generator::Generator(const char *gridString) {
     if (strlen(gridString) != 81)
         throw std::invalid_argument("Wrong amount of digits for a sudoku puzzle");
@@ -51,8 +53,6 @@ Generator::Generator(int maxUnknowns) {
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     shuffle (cells.begin(), cells.end(), std::default_random_engine(seed));
 
-    if (maxUnknowns == 0)
-        maxUnknowns = 81;
     int unknowns = 0;
     for (auto cell: cells) {
         grid[cell.row][cell.col] = 0;

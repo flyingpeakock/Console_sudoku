@@ -68,12 +68,11 @@ std::string getRandomSdmPuzzle(const char *fileName) {
 }
 
 int main(int argc, char *argv[]) {
-    int maxUnknowns = 0;
     char navKeys[] = "hjkl";
     Generator *gen = nullptr;
     for (auto i = 1; i < argc; i++) {
         if (atoi(argv[i]) > 0) {
-            maxUnknowns = atoi(argv[i]);
+            gen = new Generator(atoi(argv[i]));
         }
         if (strcmp(argv[i], "-w") == 0 || strcmp(argv[i], "--wasd") == 0) {
             strcpy(navKeys, "aswd");
@@ -90,7 +89,7 @@ int main(int argc, char *argv[]) {
         }
     }
     if (!gen)
-        gen = new Generator(maxUnknowns);
+        gen = new Generator();
     Board board(*gen);
     Game game(board, navKeys);
     game.mainLoop();
