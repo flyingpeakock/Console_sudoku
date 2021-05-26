@@ -11,7 +11,9 @@ Board::Board(Generator gen): playGrid(gen.getGrid()), startGrid(playGrid), solut
 
     for (auto i = 1; i <= 9; i++) {
         count.insert({i, 0});
-        for (auto j = 1; j <= 9; j++) {
+    }
+    for (auto i = 0; i < 9; i++) {
+        for (auto j = 0; j < 9; j++) {
             int val = startGrid[i][j];
             if (val != 0) {
                 count[val]++;
