@@ -129,8 +129,16 @@ void Window::printPencil() {
         int col = boardLeft + 1;
         for (auto j = 0; j < 9; j++) {
            if (grid[i][j] < 1) {
-               char s[4] = {marks[i][j][0], marks[i][j][2], marks[i][j][1], '\0'};
-               mvprintw(row, col, "%s", s);
+               int idx[] = {0, 2, 1};
+               move(row, col);
+               for (auto k : idx) {
+                   char c = marks[i][j][k];
+                   if (!checkColors && c - '0' == highlightNum){
+                       attron(COLOR_PAIR(3));
+                   }
+                   addch(c);
+                   attroff(COLOR_PAIR(3));
+               }
            }
            col += 4;
         }
