@@ -1,3 +1,6 @@
+# This repository is no longer maintained
+instead use [tuidoku](https://github.com/flyingpeakock/tuidoku) instead.
+
 # Console Sudoku
 
 Simple ncurses program to play sudoku in the terminal
